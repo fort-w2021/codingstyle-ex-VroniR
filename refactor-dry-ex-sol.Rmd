@@ -6,10 +6,16 @@ y <- rnorm(100)
 z <- rnorm(100)
 v <- z^2
 
-get_confidence <- function(x) {
-  m <- mean(x)
-  s <- sd(x)
-  n <- length(x)
+get_confidence <- function(data) {
+  if (!checkmate::test_atomic_vector(data)) {
+    stop("supplied data is not a vector!")
+  }
+  if (!checkmate::test_numeric(data)) {
+    stop("supplied data is not numeric!")
+  }
+  m <- mean(data, na.rm = TRUE)
+  s <- sd(data, na.rm = TRUE)
+  n <- length(data)
   c(m - 1.96 * s / sqrt(n), m + 1.96 * s / sqrt(n))
 }
 
